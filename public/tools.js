@@ -73,7 +73,7 @@ function cardToolsHtml(c) {
       <label>£<input type="number" id="alVal" min="0" step="0.5" value="${Math.round(c.gbp * 0.9)}"></label>
       <button class="primary" id="alGo">Set alert</button>
     </div>
-    <p class="note">Alerts are checked every time you open the site, and you'll get a notification if you allow it. They use the TCGplayer price, in pounds, which updates daily.</p>
+    <p class="note">Alerts are checked every time you open the site (with a notification if you allow it). Signed in, you'll also get an email the morning it triggers. Alerts use the TCGplayer price in pounds, updated daily.</p>
   </div>
   <div class="panel" id="p-sell" hidden>
     <div class="form"><label>Selling price (£)<input type="number" id="sellAt" min="0" step="0.5" value="${sellPrice}"></label></div>
@@ -148,7 +148,7 @@ function wireCardTools(c) {
 
 // ---------- price alerts ----------
 function createAlert(c, type, value) {
-  Store.update((d) => d.alerts.push({ id: Date.now().toString(36), key: c.key, type, value, created: new Date().toISOString().slice(0, 10) }));
+  Store.update((d) => d.alerts.push({ id: newId(), key: c.key, type, value, created: new Date().toISOString().slice(0, 10) }));
   toast(`Alert set: ${c.name} ${type === 'below' ? 'below' : 'above'} ${gbp(value)}`);
   if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission().catch(() => {});
 }
@@ -177,7 +177,7 @@ function alertListHtml(cards) {
     const c = cards.get(a.key);
     if (!c) return '';
     return `<div class="li ${a.hit ? 'hit' : ''}" data-key="${esc(a.key)}"><img src="${esc(c.img)}" alt="">
-      <div><div class="nm">${esc(c.name)}</div><div class="meta">${a.type === 'below' ? 'Below' : 'Above'} ${gbp(a.value)} · now ${gbp(c.gbp)}${a.hit ? ` · <b class="up">triggered ${esc(a.hit)}</b>` : ''}</div></div>
+      <div><div class="nm">${esc(c.name)}</div><div class="meta">${a.type === 'below' ? 'Below' : 'Above'} ${gbp(a.value)} · now ${gbp(c.gbp)}${a.hit ? ` · <b class="up">triggered ${esc(a.hit)}</b>` : ''}${a.emailed ? ' · emailed ✓' : ''}</div></div>
       <div class="r"><button class="ghost sm" data-alert-del="${esc(a.id)}">Delete</button></div></div>`;
   }).join('')}</div>`;
 }

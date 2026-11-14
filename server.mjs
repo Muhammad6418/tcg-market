@@ -64,6 +64,8 @@ const POPULAR = {
 };
 
 const routes = {
+  // public Supabase settings (the anon key is meant for browsers; row-level security protects data)
+  '/api/config': () => ({ supabaseUrl: process.env.SUPABASE_URL || null, supabaseAnonKey: process.env.SUPABASE_ANON_KEY || null }),
   '/api/meta': () => ({
     updated: data.updated, fx: data.fx, weeks: data.history.dates.length,
     first: data.history.dates[0], last: data.history.dates.at(-1),

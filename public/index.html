@@ -26,6 +26,7 @@
     <button data-tab="scan">📷 Scan</button>
     <button data-tab="mine">My cards</button>
   </nav>
+  <button id="acctBtn" class="ghost acct" hidden>Sign in</button>
   <div class="controls">
     <div class="seg" id="game">
       <button data-game="all" class="on">Both</button>
@@ -91,10 +92,12 @@
 </main>
 
 <dialog id="modal"><div id="modalBody"></div></dialog>
+<dialog id="authDlg"><div id="authBody"></div></dialog>
 <script src="/app.js"></script>
 <script src="/tools.js"></script>
 <script src="/mine.js"></script>
 <script src="/sets.js"></script>
 <script src="/scan.js"></script>
+<script src="/account.js"></script>
 </body>
 </html>

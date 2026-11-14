@@ -238,4 +238,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   $('#updated').textContent = `Prices ${new Date(S.meta.updated).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} · £1 = $${(1 / S.meta.fx).toFixed(2)} · ${S.meta.weeks} weeks of history`;
   rerender();
   checkAlertsOnOpen().catch(() => {});
+  initAccounts().catch((e) => console.warn('accounts unavailable:', e.message));
+  $('#acctBtn').onclick = () => openAuth('signin');
 });

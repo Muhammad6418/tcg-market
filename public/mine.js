@@ -31,7 +31,7 @@ function updateBadge() {
 
 // ---------- actions used by the card view ----------
 function addToCollection(c, { qty, paid, date, where }) {
-  Store.update((d) => d.collection.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), key: c.key, qty, paid, date, where: where || '' }));
+  Store.update((d) => d.collection.push({ id: newId(), key: c.key, qty, paid, date, where: where || '' }));
   toast(`Added ${qty} × ${c.name} to your collection`);
 }
 function toggleWatch(key) {
@@ -49,7 +49,7 @@ async function renderMine() {
   const el = $('#mineBody');
   const keys = [...new Set([...d.collection.map((x) => x.key), ...d.watch, ...d.alerts.map((a) => a.key)])];
   if (!keys.length) {
-    el.innerHTML = `<div class="empty">Nothing saved yet. Open any card and tap <b>Add to collection</b>, <b>Watch</b> or <b>Price alert</b>.<br><br><button class="ghost" id="importBtn2">Import a backup</button></div>`;
+    el.innerHTML = `${accountNote()}<div class="empty">Nothing saved yet. Open any card and tap <b>Add to collection</b>, <b>Watch</b> or <b>Price alert</b>.<br><br><button class="ghost" id="importBtn2">Import a backup</button></div>`;
     $('#importBtn2').onclick = importData;
     return;
   }
@@ -66,7 +66,7 @@ async function renderMine() {
   const pl = value - cost;
   const fresh = Store.read();
 
-  el.innerHTML = `
+  el.innerHTML = `${accountNote()}
     <div class="row between"><h2>My collection</h2>
       <div class="row"><button class="ghost" id="exportBtn">Export backup</button><button class="ghost" id="importBtn">Import</button></div></div>
     ${rows.length ? `
@@ -149,13 +149,19 @@ function importData() {
       const d = JSON.parse(await inp.files[0].text());
       if (!Array.isArray(d.collection) || !Array.isArray(d.watch)) throw new Error('not a backup');
       const clean = {
-        collection: d.collection.filter((x) => typeof x.key === 'string').map((x) => ({ id: String(x.id || Math.random()), key: x.key, qty: Math.max(1, +x.qty || 1), paid: Math.max(0, +x.paid || 0), date: String(x.date || '').slice(0, 10), where: String(x.where || '').slice(0, 40) })),
+        collection: d.collection.filter((x) => typeof x.key === 'string').map((x) => ({ id: String(x.id || newId()), key: x.key, qty: Math.max(1, +x.qty || 1), paid: Math.max(0, +x.paid || 0), date: String(x.date || '').slice(0, 10), where: String(x.where || '').slice(0, 40) })),
         watch: d.watch.filter((k) => typeof k === 'string'),
-        alerts: (d.alerts || []).filter((a) => typeof a.key === 'string' && ['below', 'above'].includes(a.type)).map((a) => ({ id: String(a.id || Math.random()), key: a.key, type: a.type, value: +a.value, created: a.created })),
+        alerts: (d.alerts || []).filter((a) => typeof a.key === 'string' && ['below', 'above'].includes(a.type)).map((a) => ({ id: String(a.id || newId()), key: a.key, type: a.type, value: +a.value, created: a.created })),
       };
       if (!confirm(`Replace what's saved here with this backup (${clean.collection.length} collection entries, ${clean.watch.length} watched)?`)) return;
       Store.write(clean); updateBadge(); renderMine(); toast('Backup imported');
     } catch { toast("That file isn't a TCG Market backup"); }
   };
   inp.click();
+}
+
+function accountNote() {
+  if (typeof Cloud === 'undefined' || !Cloud.client) return '<p class="note">Saved on this device only. Use <b>Export backup</b> to move it to another device.</p>';
+  if (Cloud.user) return `<p class="note">Saved to your account (${esc(Cloud.user.email)}): it's on every device you sign in on.</p>`;
+  return '<div class="nudge">Saved on this device only. <a href="#" onclick="openAuth(\'signup\');return false">Create a free account</a> or <a href="#" onclick="openAuth(\'signin\');return false">sign in</a> to keep your cards on every device and get price alerts by email.</div>';
 }
