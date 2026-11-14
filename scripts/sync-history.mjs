@@ -12,7 +12,8 @@ const run = promisify(execFile);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = path.join(ROOT, 'cache');
 const WEEKS = path.join(CACHE, 'weeks');
-const CATS = ['3', '68'];
+const CATS = ['3', '68', '85'];
+const CATS_ID = CATS.join(',');
 const UA = { 'User-Agent': 'tcg-market-local/1.0' };
 const MONTHS = Number(process.env.MONTHS || 24);
 
@@ -37,7 +38,7 @@ async function walk(dir) {
 }
 
 async function snapshot(date) {
-  const file = path.join(WEEKS, `${date}.json`);
+  const file = path.join(WEEKS, `${date}.c${CATS_ID.replace(/,/g, '-')}.json`);
   if (await exists(file)) return JSON.parse(await readFile(file, 'utf8'));
   const arc = path.join(CACHE, `${date}.7z`);
   let r;
@@ -93,7 +94,8 @@ async function main() {
   const old = (await exists(hPath)) ? JSON.parse(await readFile(hPath, 'utf8')) : { dates: [], series: {}, missing: [] };
   const oldIdx = new Map(old.dates.map((d, i) => [d, i]));
   const oldMissing = new Set(old.missing || []);
-  const have = (d) => oldIdx.has(d) && !oldMissing.has(d);
+  const sameCats = (old.cats || '3,68') === CATS_ID; // a new game/language means every week is fetched again
+  const have = (d) => sameCats && oldIdx.has(d) && !oldMissing.has(d);
   const todo = dates.filter((d) => !have(d));
   console.log(`${dates.length} weeks ${dates[0]} → ${dates.at(-1)}; ${todo.length} to download`);
 
@@ -111,8 +113,26 @@ async function main() {
     console.log(`  ${date} ✓`);
   }
   for (const a of Object.values(series)) for (let i = 0; i < dates.length; i++) if (a[i] === undefined) a[i] = null;
-  await writeFile(hPath, JSON.stringify({ dates, series, missing }));
+  await writeFile(hPath, JSON.stringify({ dates, series, missing, cats: CATS_ID }));
+  await writeBinary(dates, series);
   console.log(`saved history for ${Object.keys(series).length} items${missing.length ? `; still missing ${missing.join(', ')}` : ''}`);
+}
+
+// Compact copy for the website: history.bin holds every series as float32 (NaN = no price), one
+// after another, and history-index.json lists the dates and which key each slot belongs to.
+async function writeBinary(dates, series) {
+  const keys = Object.keys(series);
+  const buf = new Float32Array(keys.length * dates.length);
+  keys.forEach((k, r) => series[k].forEach((v, i) => { buf[r * dates.length + i] = v == null ? NaN : v; }));
+  await writeFile(path.join(ROOT, 'data/history.bin'), Buffer.from(buf.buffer));
+  await writeFile(path.join(ROOT, 'data/history-index.json'), JSON.stringify({ dates, keys }));
+}
+
+if (process.argv[2] === '--binary-only') {
+  const h = JSON.parse(await readFile(path.join(ROOT, 'data/history.json'), 'utf8'));
+  await writeBinary(h.dates, h.series);
+  console.log('wrote history.bin');
+  process.exit(0);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

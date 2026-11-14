@@ -20,11 +20,13 @@ jobs:
       - run: chmod +x node_modules/7zip-bin/linux/x64/7za
       - name: Get yesterday's data
         run: |
-          git fetch origin data --depth=1 && git show origin/data:history.json > data/history.json || echo "no data branch yet"
+          git fetch origin data --depth=1 || echo "no data branch yet"
+          git show origin/data:history.json > data/history.json || rm -f data/history.json
+          git show origin/data:cm-map.json > data/cm-map.json || rm -f data/cm-map.json
       - run: npm run refresh
       - name: Publish to the data branch
         run: |
-          mkdir /tmp/out && cp data/catalog.json data/history.json /tmp/out/
+          mkdir /tmp/out && cp data/catalog.json data/history.json data/history.bin data/history-index.json data/cardmarket.json data/cm-map.json /tmp/out/
           cd /tmp/out
           git init -q -b data
           git config user.name "price-bot"

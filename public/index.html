@@ -4,24 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TCG Market</title>
+<meta name="description" content="Pokémon and One Piece card prices, today's best buys, budget planner, price charts and collection tracker.">
+<meta name="theme-color" content="#14171c">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="/app.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <header class="top">
-  <div class="brand">TCG Market <span class="sub" id="updated"></span></div>
+  <div class="brand"><img src="/icon.svg" alt="" class="logo">TCG Market <span class="sub" id="updated"></span></div>
   <nav class="tabs" id="tabs">
     <button data-tab="today" class="on">Today's top 50</button>
     <button data-tab="budget">Budget</button>
     <button data-tab="market">Market</button>
     <button data-tab="chars">Characters</button>
+    <button data-tab="sets">Sets</button>
     <button data-tab="search">Search</button>
+    <button data-tab="scan">📷 Scan</button>
+    <button data-tab="mine">My cards</button>
   </nav>
   <div class="controls">
     <div class="seg" id="game">
       <button data-game="all" class="on">Both</button>
       <button data-game="pokemon">Pokémon</button>
       <button data-game="onepiece">One Piece</button>
+    </div>
+    <div class="seg" id="lang">
+      <button data-lang="en" class="on">English</button>
+      <button data-lang="jp">Japanese</button>
+      <button data-lang="all">Both</button>
     </div>
     <label class="cap">Max price <b id="capv">£150</b>
       <input type="range" id="cap" min="10" max="400" step="10" value="150">
@@ -71,9 +85,16 @@
     <input id="q" class="bigsearch" placeholder="Search any card: name, set or number (e.g. Luffy, OP13-001, Umbreon 161)">
     <div class="grid" id="searchGrid"></div>
   </section>
+  <section id="sets" class="tab"><div id="setsBody"></div></section>
+  <section id="scan" class="tab"><div id="scanBody"></div></section>
+  <section id="mine" class="tab"><div id="mineBody"></div></section>
 </main>
 
 <dialog id="modal"><div id="modalBody"></div></dialog>
 <script src="/app.js"></script>
+<script src="/tools.js"></script>
+<script src="/mine.js"></script>
+<script src="/sets.js"></script>
+<script src="/scan.js"></script>
 </body>
 </html>

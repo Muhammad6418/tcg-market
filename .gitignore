@@ -2,5 +2,8 @@ node_modules/
 cache/
 data/catalog.json
 data/history.json
+data/history.bin
+data/history-index.json
+data/cardmarket.json
 data/*.tmp
 .DS_Store
