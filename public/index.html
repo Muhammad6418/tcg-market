@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TCG Market</title>
+<link rel="stylesheet" href="/app.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">TCG Market <span class="sub" id="updated"></span></div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="today" class="on">Today's top 50</button>
+    <button data-tab="budget">Budget</button>
+    <button data-tab="market">Market</button>
+    <button data-tab="chars">Characters</button>
+    <button data-tab="search">Search</button>
+  </nav>
+  <div class="controls">
+    <div class="seg" id="game">
+      <button data-game="all" class="on">Both</button>
+      <button data-game="pokemon">Pokémon</button>
+      <button data-game="onepiece">One Piece</button>
+    </div>
+    <label class="cap">Max price <b id="capv">£150</b>
+      <input type="range" id="cap" min="10" max="400" step="10" value="150">
+    </label>
+  </div>
+</header>
+
+<main>
+  <section id="today" class="tab on">
+    <p class="lede">The 50 best-placed cards right now under your price limit. Each one is ranked on 12-month trend, recent momentum, dips from recent highs, rarity, and the latest news and catalysts for that character. Tap a card for its chart and buy links.</p>
+    <div class="grid" id="topGrid"></div>
+  </section>
+
+  <section id="budget" class="tab">
+    <div class="budgetBar">
+      <label>I have <span class="pound">£</span><input id="budgetIn" type="number" min="10" step="5" value="100"> to spend today</label>
+      <button id="budgetGo" class="primary">Plan my buys</button>
+    </div>
+    <div id="budgetOut"></div>
+  </section>
+
+  <section id="market" class="tab">
+    <div class="row between">
+      <h2 id="mkTitle">Market</h2>
+      <div class="seg" id="range"><button data-r="52" class="on">12 months</button><button data-r="104">24 months</button></div>
+    </div>
+    <p class="lede" id="mkNote"></p>
+    <div class="chartBox"><canvas id="idxChart"></canvas></div>
+    <div class="cols3">
+      <div><h3>Biggest risers (4 weeks)</h3><div class="list" id="g4"></div></div>
+      <div><h3>Biggest fallers (4 weeks)</h3><div class="list" id="l4"></div></div>
+      <div><h3>Best over 12 months</h3><div class="list" id="g52"></div></div>
+    </div>
+    <div class="cols2">
+      <div><h3>Latest news</h3><div id="news" class="news"></div></div>
+      <div><h3>Coming up</h3><div id="cats" class="news"></div></div>
+    </div>
+  </section>
+
+  <section id="chars" class="tab">
+    <div class="chips" id="chips"></div>
+    <h2 id="charTitle"></h2>
+    <div class="grid" id="charGrid"></div>
+  </section>
+
+  <section id="search" class="tab">
+    <input id="q" class="bigsearch" placeholder="Search any card: name, set or number (e.g. Luffy, OP13-001, Umbreon 161)">
+    <div class="grid" id="searchGrid"></div>
+  </section>
+</main>
+
+<dialog id="modal"><div id="modalBody"></div></dialog>
+<script src="/app.js"></script>
+</body>
+</html>

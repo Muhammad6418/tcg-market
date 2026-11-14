@@ -1,0 +1,49 @@
+{
+  "updated": "2026-11-14",
+  "note": "Character boosts come from the news and catalyst research on the old TCG board. boost: +2 strong tailwind … -2 headwind. Edit this file to change how the top 50 is ranked.",
+  "characters": [
+    { "game": "onepiece", "match": "Sanji", "boost": 2, "why": "Unlocked Conqueror's Haki in ch. 1197; his cards have lagged Luffy and Zoro" },
+    { "game": "onepiece", "match": "Loki", "boost": 2, "why": "Centre of the Elbaph arc; English dub meets him from mid-Nov" },
+    { "game": "onepiece", "match": "Brook", "boost": 1, "why": "Two-part backstory (ch. 1182–1186) heading to the anime in 2027" },
+    { "game": "onepiece", "match": "Robin", "boost": 1, "why": "First Manga Rare in OP-18, plus Netflix season 3 (Alabasta) in 2027" },
+    { "game": "onepiece", "match": "Zoro", "boost": 1, "why": "Conqueror's Haki climax in ch. 1197; anime return in 2027" },
+    { "game": "onepiece", "match": "Luffy", "boost": 1, "why": "New Dark Nika form (ch. 1198); always in demand, so buy dips only" },
+    { "game": "onepiece", "match": "Imu", "boost": 1, "why": "Final villain in the spotlight; any new Imu card could be a chase" },
+    { "game": "onepiece", "match": "Gaban", "boost": 1, "why": "Legend-tier fighter with almost no cards yet" },
+    { "game": "onepiece", "match": "Buggy", "boost": 1, "why": "EB-06 East Blue (29 Jan) and the WIT Studio remake (Feb 2027)" },
+    { "game": "onepiece", "match": "Arlong", "boost": 1, "why": "EB-06 East Blue (29 Jan) and the WIT Studio remake (Feb 2027)" },
+    { "game": "onepiece", "match": "Mihawk", "boost": 1, "why": "EB-06 East Blue (29 Jan) and the WIT Studio remake (Feb 2027)" },
+    { "game": "onepiece", "match": "Vivi", "boost": 1, "why": "Netflix season 3 is the Alabasta arc" },
+    { "game": "onepiece", "match": "Crocodile", "boost": 1, "why": "Netflix season 3 is the Alabasta arc" },
+    { "game": "onepiece", "match": "Roger", "boost": 1, "why": "Film: God Valley (summer 2027)" },
+    { "game": "onepiece", "match": "Garp", "boost": 1, "why": "Film: God Valley (summer 2027)" },
+    { "game": "onepiece", "match": "Nami", "boost": -1, "why": "Heroines vol. 2 added supply; prices falling month on month" },
+    { "game": "pokemon", "match": "Raichu", "boost": 1, "why": "Mega Raichu X & Y in Aura Seeker (Japan, 27 Nov) and MEGA x MEGA Parade" },
+    { "game": "pokemon", "match": "Lucario", "boost": 1, "why": "Flowing Fists (5 Feb 2027) is led by Mega Lucario Z ex" },
+    { "game": "pokemon", "match": "Raikou", "boost": 1, "why": "Teased for the first ex★ series" },
+    { "game": "pokemon", "match": "Entei", "boost": 1, "why": "Teased for the first ex★ series" },
+    { "game": "pokemon", "match": "Suicune", "boost": 1, "why": "Teased for the first ex★ series" },
+    { "game": "pokemon", "match": "Mimikyu", "boost": 1, "why": "Co-stars in the 2027 TCG-themed movie Pokémon: Wild Card" },
+    { "game": "pokemon", "match": "Umbreon", "boost": -1, "why": "TCGplayer: modern Umbreon ex SIR leading the drops as reprints land" },
+    { "game": "pokemon", "match": "Rayquaza", "boost": -1, "why": "Delta Reign just released; singles still settling" }
+  ],
+  "news": [
+    { "date": "2026-11-08", "game": "onepiece", "headline": "Chapter 1198: Dark Nika takes over Luffy; Imu downs Loki in one hit", "why": "Luffy and Loki cards in focus", "source": "GameRant" },
+    { "date": "2026-11-06", "game": "pokemon", "headline": "Delta Reign released in English (Mega Rayquaza ex)", "why": "Wait for singles to settle", "source": "NerdSnack" },
+    { "date": "2026-11-01", "game": "onepiece", "headline": "Chapter 1197: Sanji unlocks Conqueror's Haki", "why": "Sanji cards may catch up with Luffy and Zoro", "source": "AnimeExplained" },
+    { "date": "2026-10-30", "game": "pokemon", "headline": "30th Celebration chase cards down 50–80% since release day", "why": "Rebound plays are now cheap", "source": "Bill's Archive" },
+    { "date": "2026-10-30", "game": "onepiece", "headline": "EB-05 Heroines Edition Vol. 2 released", "why": "More Nami / Robin / Hancock supply", "source": "Bill's Archive" },
+    { "date": "2026-10-13", "game": "pokemon", "headline": "Modern singles falling as reprints catch up", "why": "Umbreon ex SIR and Pikachu ex lead the drops", "source": "TCGplayer" },
+    { "date": "2026-10-07", "game": "pokemon", "headline": "Flowing Fists (Mega Lucario Z ex) set for 5 Feb 2027", "why": "Lucario back in focus", "source": "Wargamer" }
+  ],
+  "catalysts": [
+    { "date": "2026-11-17", "game": "onepiece", "event": "English dub reaches Loki (ep. 1160, est.)" },
+    { "date": "2026-11-20", "game": "onepiece", "event": "OP-18 The Dominance of God releases" },
+    { "date": "2026-11-22", "game": "onepiece", "event": "Manga chapter 1199" },
+    { "date": "2026-11-27", "game": "pokemon", "event": "Aura Seeker (Japan): Mega Raichu X & Y" },
+    { "date": "2027-01-29", "game": "onepiece", "event": "EB-06 East Blue" },
+    { "date": "2027-02-05", "game": "pokemon", "event": "Flowing Fists (English)" },
+    { "date": "2027-02-27", "game": "pokemon", "event": "Pokémon Day 2027 announcements" },
+    { "date": "2027-03-05", "game": "onepiece", "event": "OP-19 Come In World (Egghead)" }
+  ]
+}

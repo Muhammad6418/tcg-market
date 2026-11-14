@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tcg-market
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: node --max-old-space-size=200 server.mjs
+    healthCheckPath: /api/meta
+    envVars:
+      - key: DATA_URL
+        sync: false

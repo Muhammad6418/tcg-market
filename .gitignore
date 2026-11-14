@@ -1,0 +1,6 @@
+node_modules/
+cache/
+data/catalog.json
+data/history.json
+data/*.tmp
+.DS_Store
