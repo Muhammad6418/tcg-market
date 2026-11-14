@@ -7,3 +7,4 @@ data/history-index.json
 data/cardmarket.json
 data/*.tmp
 .DS_Store
+data/cm-map.json
