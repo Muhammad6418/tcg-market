@@ -70,6 +70,17 @@
       <div><h3>Biggest fallers (4 weeks)</h3><div class="list" id="l4"></div></div>
       <div><h3>Best over 12 months</h3><div class="list" id="g52"></div></div>
     </div>
+    <div class="row between wrap" style="margin-top:26px">
+      <h2 id="allMov">All fallers &amp; risers</h2>
+      <div class="row wrap">
+        <div class="seg" id="mvDir"><button data-v="fall" class="on">Fallers</button><button data-v="rise">Risers</button></div>
+        <div class="seg" id="mvWin"><button data-v="chg4" class="on">4 weeks</button><button data-v="chg13">3 months</button><button data-v="chg52">12 months</button></div>
+        <label class="cap">Min £<input type="number" id="mvMin" min="0" step="1" value="3" style="width:64px"></label>
+      </div>
+    </div>
+    <p class="note" id="mvNote"></p>
+    <table class="tbl mvtbl"><thead><tr><th></th><th>Card</th><th>Was</th><th>Now</th><th>Change</th><th>Cardmarket</th></tr></thead><tbody id="mvBody"></tbody></table>
+    <div style="text-align:center;margin:12px 0"><button class="ghost" id="mvMore" hidden>Show 50 more</button></div>
     <div class="cols2">
       <div><h3>Latest news</h3><div id="news" class="news"></div></div>
       <div><h3>Coming up</h3><div id="cats" class="news"></div></div>

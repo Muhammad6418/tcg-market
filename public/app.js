@@ -87,6 +87,29 @@ function buyLinks(l) {
   <div class="note">eBay, Cardmarket and Vinted links search for "${esc(l.query)}": the card's name, number and version, in trading-card categories only.</div>`;
 }
 
+// full list of fallers / risers, 50 at a time, following the game, language and max-price controls
+const MV = { dir: 'fall', win: 'chg4', min: 3, offset: 0 };
+const WIN_LABEL = { chg4: '4 weeks', chg13: '3 months', chg52: '12 months' };
+async function renderMovers(append = false) {
+  if (!append) MV.offset = 0;
+  const r = await api('/api/movers', { game: S.game, lang: S.lang, cap: S.cap, min: MV.min, window: MV.win, dir: MV.dir, offset: MV.offset });
+  const rows = r.items.map((c) => {
+    const ch = c[MV.win];
+    const was = c.gbp / (1 + ch);
+    return `<tr data-key="${esc(c.key)}" class="link">
+      <td><img loading="lazy" src="${esc(c.img)}" alt=""></td>
+      <td><b>${esc(c.name)}</b><div class="meta">${esc(c.set)}${c.number ? ' · ' + esc(c.number) : ''}${c.lang === 'jp' ? ' · Japanese' : ''}</div></td>
+      <td>${gbp(was)}</td><td><b>${gbp(c.gbp)}</b></td>
+      <td class="${cls(ch)}"><b>${pct(ch)}</b></td>
+      <td>${c.cm?.gbp ? gbp(c.cm.gbp) : '—'}</td></tr>`;
+  }).join('');
+  $('#mvBody').innerHTML = append ? $('#mvBody').innerHTML + rows : rows || `<tr><td colspan="6" class="empty">No cards ${MV.dir === 'fall' ? 'fell' : 'rose'} in this range.</td></tr>`;
+  MV.offset += r.items.length;
+  $('#mvNote').textContent = `${r.total.toLocaleString()} cards ${MV.dir === 'fall' ? 'fell' : 'rose'} over the last ${WIN_LABEL[MV.win]} (between £${MV.min} and £${S.cap}), biggest move first. Showing ${MV.offset.toLocaleString()}. Tap a card for its chart.`;
+  $('#mvMore').hidden = MV.offset >= r.total;
+}
+const segPick = (id, key) => { $(id).onclick = (e) => { const b = e.target.closest('button'); if (!b) return; MV[key] = b.dataset.v; $(id).querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); renderMovers(); }; };
+
 let idxChart;
 async function renderMarket() {
   const game = S.game === 'all' ? 'pokemon' : S.game;
@@ -110,6 +133,7 @@ async function renderMarket() {
   $('#g4').innerHTML = m.gainers4.map((c) => listRow(c, 'chg4')).join('');
   $('#l4').innerHTML = m.losers4.map((c) => listRow(c, 'chg4')).join('');
   $('#g52').innerHTML = m.gainers52.map((c) => listRow(c, 'chg52')).join('');
+  renderMovers();
   const meta = S.meta;
   const f = (x) => S.game === 'all' || x.game === S.game;
   $('#news').innerHTML = meta.news.filter(f).map((x) => `<div class="n"><span class="d">${x.date} · ${GAME[x.game]} · ${esc(x.source)}</span><br><b>${esc(x.headline)}</b><br>${esc(x.why)}</div>`).join('');
@@ -223,6 +247,9 @@ $('#cap').oninput = (e) => { S.cap = +e.target.value; $('#capv').textContent = `
 $('#cap').onchange = rerender;
 $('#range').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; S.range = +b.dataset.r; document.querySelectorAll('#range button').forEach((x) => x.classList.toggle('on', x === b)); renderMarket(); };
 $('#budgetGo').onclick = renderBudget;
+segPick('#mvDir', 'dir'); segPick('#mvWin', 'win');
+$('#mvMin').onchange = (e) => { MV.min = Math.max(0, +e.target.value || 0); renderMovers(); };
+$('#mvMore').onclick = () => renderMovers(true);
 $('#budgetIn').onkeydown = (e) => { if (e.key === 'Enter') renderBudget(); };
 $('#chips').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; S.char = { name: b.dataset.char, game: b.dataset.g }; renderChars(); };
 $('#q').oninput = () => { clearTimeout(qTimer); qTimer = setTimeout(renderSearch, 250); };

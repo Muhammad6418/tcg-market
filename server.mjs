@@ -152,6 +152,15 @@ const routes = {
     }
     return { dates, values: values.map((v) => Math.round(v * 100) / 100) };
   },
+  // full list of fallers or risers: ?dir=fall|rise&window=chg4|chg13|chg52&min=3&cap=150&offset=0
+  '/api/movers': (q) => {
+    const window = ['chg4', 'chg13', 'chg52'].includes(q.window) ? q.window : 'chg4';
+    const r = E.allMovers(data, {
+      game: q.game || 'all', lang: q.lang || 'en', cap: num(q.cap, 150), min: Math.max(0, num(q.min, 3)),
+      window, dir: q.dir === 'rise' ? 1 : -1, offset: Math.max(0, num(q.offset, 0)), limit: Math.min(100, num(q.limit, 50)),
+    });
+    return { total: r.total, items: r.items.map((c) => ({ ...slim(c), spark: null })) };
+  },
   '/api/market': (q) => {
     const game = q.game || 'pokemon';
     const cap = num(q.cap, 150);
